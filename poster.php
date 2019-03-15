@@ -41,7 +41,7 @@
 
 		$need = false;
 		foreach ($schedule['schedule'][$weekday-1]['classes'] as $number => $class) {
-			if (willBeClass($class['parity'], $weeknumber)) {
+			if (will_be_class($class['parity'], $weeknumber)) {
 				$aud = substr($class['auditorium'], 0, 3);
 				if (in_array($aud, $non_jacket_auds)) {
 					$need = true;
@@ -57,7 +57,7 @@
 
 		$message_text = '';
 		foreach ($schedule_today['classes'] as $number => $class) {
-			if (willBeClass($class['parity'], $weeknumber)) {
+			if (will_be_class($class['parity'], $weeknumber)) {
 				$message_text .= "_" . $schedule['timetable'][$schedule_today['number_of_first_class'] + $number - 1][0] . "_ ";
 				$message_text .= $class['title'] . ' ';
 				switch ($class['kind']) {
@@ -90,7 +90,7 @@
 	}
 	$message_text .= "\n";
 
-	$message_text .= renderSheduleToMessage($schedule, $weekday, $weeknumber);
+	$message_text .= render_shedule_to_message($schedule, $weekday, $weeknumber);
 	$message_text .= "\n";
 
 	$message_text .= 'Пары закончатся в ';
@@ -113,10 +113,10 @@
 		$message_text .= " 🧥";
 	}
 	$message_text .= "\n";
-	$message_text .= renderSheduleToMessage($schedule, $tomorrow_weekday, $tomorrow_weeknumber);
+	$message_text .= render_shedule_to_message($schedule, $tomorrow_weekday, $tomorrow_weeknumber);
 
 	// echo $message_text;
-	$response = json_decode(sendMessage($message_text), true);
+	$response = json_decode(send_message($message_text), true);
 	// $chat_id = $response['result']['chat']['id'];
 
 	// $chat_id_file = fopen('chat_id.txt', 'w') or die('Unable to open file!');
