@@ -29,11 +29,11 @@
 		return $response;
 	}
 
-    function willBeClass($parity, $weeknumber) {
-    	return $parity === 'always'
-    		|| (!($weeknumber % 2) && $parity === 'even')
-    		|| (($weeknumber % 2) && $parity === 'odd');
-    }
+	function willBeClass($parity, $weeknumber) {
+		return $parity === 'always'
+			|| (!($weeknumber % 2) && $parity === 'even')
+			|| (($weeknumber % 2) && $parity === 'odd');
+	}
 
 	function jacket_is_need($schedule, $weekday, $weeknumber) {
 		$non_jacket_auds = $schedule['non-jacket auditoriums'];
@@ -49,34 +49,34 @@
 			}
 		}
 		return $need;
-    }
+	}
 
-    function renderSheduleToMessage($schedule, $weekday, $weeknumber) {
-    	$schedule_today = $schedule['schedule'][$weekday-1];
-    	$sports_emoji = ["🏐", "⛹🏻‍♂️", "⚽️", "🤸‍♂️", "🎾", "🏃‍♀️"];
+	function renderSheduleToMessage($schedule, $weekday, $weeknumber) {
+		$schedule_today = $schedule['schedule'][$weekday-1];
+		$sports_emoji = ["🏐", "⛹🏻‍♂️", "⚽️", "🤸‍♂️", "🎾", "🏃‍♀️"];
 
-    	$message_text = '';
-    	foreach ($schedule_today['classes'] as $number => $class) {
-    		if (willBeClass($class['parity'], $weeknumber)) {
-    			$message_text .= "_" . $schedule['timetable'][$schedule_today['number_of_first_class'] + $number - 1][0] . "_ ";
-    			$message_text .= $class['title'] . ' ';
-    			switch ($class['kind']) {
-    				case 'lecture':
-    					$message_text .= "🗣 ";
-    					break;
-    				case 'sleep':
-    					$message_text .= "💤 ";
-    					break;
-    				case 'sport':
-    					$message_text .= $sports_emoji[($weeknumber - 12)%count($sports_emoji)] . " ";
-    					break;
-    			}
-	    		$message_text .= "_" . $class['auditorium'] . "_";
-	    		$message_text .= "\n";
-	    	}
-    	}
-    	return $message_text;
-    }
+		$message_text = '';
+		foreach ($schedule_today['classes'] as $number => $class) {
+			if (willBeClass($class['parity'], $weeknumber)) {
+				$message_text .= "_" . $schedule['timetable'][$schedule_today['number_of_first_class'] + $number - 1][0] . "_ ";
+				$message_text .= $class['title'] . ' ';
+				switch ($class['kind']) {
+					case 'lecture':
+						$message_text .= "🗣 ";
+						break;
+					case 'sleep':
+						$message_text .= "💤 ";
+						break;
+					case 'sport':
+						$message_text .= $sports_emoji[($weeknumber - 12)%count($sports_emoji)] . " ";
+						break;
+				}
+				$message_text .= "_" . $class['auditorium'] . "_";
+				$message_text .= "\n";
+			}
+		}
+		return $message_text;
+	}
 
 	$weekday = date('w');
 	$weeknumber = date('W');
