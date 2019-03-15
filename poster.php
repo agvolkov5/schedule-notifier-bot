@@ -51,7 +51,7 @@
 		return $need;
 	}
 
-	function renderSheduleToMessage($schedule, $weekday, $weeknumber) {
+	function render_shedule_to_message($schedule, $weekday, $weeknumber) {
 		$schedule_today = $schedule['schedule'][$weekday-1];
 		$sports_emoji = ["🏐", "⛹🏻‍♂️", "⚽️", "🤸‍♂️", "🎾", "🏃‍♀️"];
 
