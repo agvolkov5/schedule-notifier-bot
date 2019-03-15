@@ -1,1 +1,0 @@
-token of your bot (get from @botFather in Telegram)

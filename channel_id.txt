@@ -1,1 +1,0 @@
-just channel id you want to send schedule
