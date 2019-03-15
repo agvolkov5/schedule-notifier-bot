@@ -5,7 +5,7 @@
 		$test_channel_id = file_get_contents('test_channel_id.txt');
 
         $envelope = array(
-            "chat_id" => $test_channel_id,
+            "chat_id" => $production_channel_id,
             "text" => $text,
             "parse_mode" => "Markdown"
         );
@@ -78,7 +78,7 @@
     	return $message_text;
     }
 
-	$weekday = date('w') + 1;
+	$weekday = date('w');
 	$weeknumber = date('W');
 	$result = date('Y-m-d h:i');
 	$schedule = json_decode(file_get_contents('schedule.json'), true);
@@ -93,21 +93,20 @@
 	$message_text .= renderSheduleToMessage($schedule, $weekday, $weeknumber);
 	$message_text .= "\n";
 
-	$message_text .= "Пары закончатся в ";
-	$number_of_last_class = count($schedule["schedule"][$weekday-1]["classes"]) + $schedule["schedule"][$weekday-1]['number_of_first_class'] - 1;
+	$message_text .= 'Пары закончатся в ';
+	$number_of_last_class = count($schedule['schedule'][$weekday-1]['classes']) + $schedule['schedule'][$weekday-1]['number_of_first_class'] - 1;
 	$message_text .= $schedule['timetable'][$number_of_last_class - 1][1];
 	$message_text .= "\n";
 
 // For tomorrow
-	$message_text .= "\n";
 	$tomorrow_weekday = $weekday + 1;
 	$tomorrow_weeknumber = $weeknumber;
 	if ($tomorrow_weekday > 6) {
 		$tomorrow_weekday = 1;
 		$tomorrow_weeknumber++;
-		$message_text .= 'Завтра выходной :) Понедельник:';
+		$message_text .= "Завтра выходной :)\n\nПонедельник:";
 	} else {
-		$message_text .= 'Завтра:';
+		$message_text .= "\nЗавтра:";
 	}
 
 	if (jacket_is_need($schedule, $tomorrow_weekday, $tomorrow_weeknumber)) {
@@ -117,4 +116,9 @@
 	$message_text .= renderSheduleToMessage($schedule, $tomorrow_weekday, $tomorrow_weeknumber);
 
 	// echo $message_text;
-	$response = sendMessage($message_text);
+	$response = json_decode(sendMessage($message_text), true);
+	// $chat_id = $response['result']['chat']['id'];
+
+	// $chat_id_file = fopen('chat_id.txt', 'w') or die('Unable to open file!');
+	// fwrite($chat_id_file, $chat_id);
+	// fclose($chat_id_file);
