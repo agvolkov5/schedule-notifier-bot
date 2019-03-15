@@ -4,30 +4,30 @@
 		$production_channel_id = file_get_contents('channel_id.txt');
 		$test_channel_id = file_get_contents('test_channel_id.txt');
 
-        $envelope = array(
-            "chat_id" => $production_channel_id,
-            "text" => $text,
-            "parse_mode" => "Markdown"
-        );
+		$envelope = array(
+			"chat_id" => $production_channel_id,
+			"text" => $text,
+			"parse_mode" => "Markdown"
+		);
 
-        $ch = curl_init('https://api.telegram.org/bot'.$token.'/sendMessage');
-        curl_setopt_array($ch, array(
-            CURLOPT_POST => TRUE,
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-            ),
-            CURLOPT_POSTFIELDS => json_encode($envelope)
-        ));
+		$ch = curl_init('https://api.telegram.org/bot'.$token.'/sendMessage');
+		curl_setopt_array($ch, array(
+			CURLOPT_POST => TRUE,
+			CURLOPT_RETURNTRANSFER => TRUE,
+			CURLOPT_HTTPHEADER => array(
+ 				'Content-Type: application/json'
+			),
+			CURLOPT_POSTFIELDS => json_encode($envelope)
+		));
 
-        $response = curl_exec($ch);
+		$response = curl_exec($ch);
 
-        if($response === FALSE){
-            die(curl_error($ch));
-        }
+		if($response === FALSE){
+			die(curl_error($ch));
+		}
 
-        return $response;
-    }
+		return $response;
+	}
 
     function willBeClass($parity, $weeknumber) {
     	return $parity === 'always'
