@@ -2,3 +2,5 @@ channel_id.txt
 schedule.json
 test_channel_id.txt
 token.txt
+public/
+public/*
