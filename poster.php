@@ -29,7 +29,7 @@
 		return $response;
 	}
 
-	function willBeClass($parity, $weeknumber) {
+	function will_be_class($parity, $weeknumber) {
 		return $parity === 'always'
 			|| (!($weeknumber % 2) && $parity === 'even')
 			|| (($weeknumber % 2) && $parity === 'odd');
