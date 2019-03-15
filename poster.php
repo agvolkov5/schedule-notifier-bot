@@ -1,5 +1,5 @@
 <?php
-	function sendMessage($text) {
+	function send_message($text) {
 		$token = file_get_contents('token.txt');
 		$production_channel_id = file_get_contents('channel_id.txt');
 		$test_channel_id = file_get_contents('test_channel_id.txt');
