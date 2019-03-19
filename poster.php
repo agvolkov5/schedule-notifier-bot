@@ -5,7 +5,7 @@
 		$test_channel_id = file_get_contents('test_channel_id.txt');
 
 		$envelope = array(
-			"chat_id" => $production_channel_id,
+			"chat_id" => $test_channel_id,
 			"text" => $text,
 			"parse_mode" => "Markdown"
 		);
@@ -93,9 +93,30 @@
 	$message_text .= render_shedule_to_message($schedule, $weekday, $weeknumber);
 	$message_text .= "\n";
 
-	$message_text .= 'Пары закончатся в ';
+	$variety = [
+		'Пары до ',
+		'Пары закончатся в ',
+		'Учёба до '
+	];
+	$message_text .= $variety[array_rand($variety)];
 	$number_of_last_class = count($schedule['schedule'][$weekday-1]['classes']) + $schedule['schedule'][$weekday-1]['number_of_first_class'] - 1;
 	$message_text .= $schedule['timetable'][$number_of_last_class - 1][1];
+	$message_text .= ".\n";
+	if (jacket_is_need($schedule, $weekday, $weeknumber)) {
+		$variety = [
+			'Придётся зайти в гардероб.',
+			'Надо будет сдать куртку.',
+			'Не всегда хочется сдавать куртку, но сегодня нужно.',
+			'Сегодня не без гардероба.'
+		];
+	} else {
+		$variety = [
+			'Можно разделить пары с курткой)',
+			'Куртку можно оставить при себе)',
+			'Любовь - это когда куртка рядом.'
+		];
+	}
+	$message_text .= $variety[array_rand($variety)];
 	$message_text .= "\n";
 
 // For tomorrow
