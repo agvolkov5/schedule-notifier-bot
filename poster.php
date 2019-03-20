@@ -80,64 +80,89 @@
 
 	$weekday = date('w');
 	$weeknumber = date('W');
+	$weekdays = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 	$result = date('Y-m-d h:i');
 	$schedule = json_decode(file_get_contents('schedule.json'), true);
 
-// For today
-	$message_text = 'Сегодня:';
-	if (jacket_is_need($schedule, $weekday, $weeknumber)) {
-		$message_text .= " 🧥";
-	}
-	$message_text .= "\n";
+	$date_today = date('d-m-Y');
 
-	$message_text .= render_shedule_to_message($schedule, $weekday, $weeknumber);
-	$message_text .= "\n";
+	if (!in_array($date_today, $schedule['days_off'])) {
+	// For today
+		echo "Working..", "<br/>";
+		$message_text = 'Сегодня:';
+		if (jacket_is_need($schedule, $weekday, $weeknumber)) {
+			$message_text .= " 🧥";
+		}
+		$message_text .= "\n";
 
-	$variety = [
-		'Пары до ',
-		'Пары закончатся в ',
-		'Учёба до '
-	];
-	$message_text .= $variety[array_rand($variety)];
-	$number_of_last_class = count($schedule['schedule'][$weekday-1]['classes']) + $schedule['schedule'][$weekday-1]['number_of_first_class'] - 1;
-	$message_text .= $schedule['timetable'][$number_of_last_class - 1][1];
-	$message_text .= ".\n";
-	if (jacket_is_need($schedule, $weekday, $weeknumber)) {
+		$message_text .= render_shedule_to_message($schedule, $weekday, $weeknumber);
+		$message_text .= "\n";
+
 		$variety = [
-			'Придётся зайти в гардероб.',
-			'Надо будет сдать куртку.',
-			'Не всегда хочется сдавать куртку, но сегодня нужно.',
-			'Сегодня не без гардероба.'
+			'Пары до ',
+			'Пары закончатся в ',
+			'Учёба до '
 		];
-	} else {
-		$variety = [
-			'Можно разделить пары с курткой)',
-			'Куртку можно оставить при себе)',
-			'Любовь - это когда куртка рядом 💕'
-		];
-	}
-	$message_text .= $variety[array_rand($variety)];
-	$message_text .= "\n";
+		$message_text .= $variety[array_rand($variety)];
+		$number_of_last_class = count($schedule['schedule'][$weekday-1]['classes']) + $schedule['schedule'][$weekday-1]['number_of_first_class'] - 1;
+		$message_text .= $schedule['timetable'][$number_of_last_class - 1][1];
+		$message_text .= ".\n";
+		if (jacket_is_need($schedule, $weekday, $weeknumber)) {
+			$variety = [
+				'Придётся зайти в гардероб.',
+				'Надо будет сдать куртку.',
+				'Не всегда хочется сдавать куртку, но сегодня нужно.',
+				'Сегодня не без гардероба.'
+			];
+		} else {
+			$variety = [
+				'Можно разделить пары с курткой)',
+				'Куртку можно оставить при себе)',
+				'Любовь - это когда куртка рядом 💕'
+			];
+		}
+		$message_text .= $variety[array_rand($variety)];
+		$message_text .= "\n";
 
-// For tomorrow
-	$tomorrow_weekday = $weekday + 1;
-	$tomorrow_weeknumber = $weeknumber;
-	if ($tomorrow_weekday > 6) {
-		$tomorrow_weekday = 1;
-		$tomorrow_weeknumber++;
-		$message_text .= "Завтра выходной :)\n\nПонедельник:";
-	} else {
-		$message_text .= "\nЗавтра:";
-	}
+	// For tomorrow
+		$next_date = new DateTime('tomorrow');
+		$next_weekday = $next_date->format('w');
 
-	if (jacket_is_need($schedule, $tomorrow_weekday, $tomorrow_weeknumber)) {
-		$message_text .= " 🧥";
-	}
-	$message_text .= "\n";
-	$message_text .= render_shedule_to_message($schedule, $tomorrow_weekday, $tomorrow_weeknumber);
+		$number_of_days_off = 0;
+		while (($next_weekday === 0)
+			|| (in_array($next_date->format('d-m-Y'), $schedule['days_off']))) {
+			$next_date->modify("+1 day");
+			$number_of_days_off++;
+			// $message_text .= "Завтра выходной :)\n\nПонедельник:";
+			$next_weekday = (int)$next_date->format('w');
+			$next_weeknumber = (int)$next_date->format('W');
+		}
+
+		switch ($number_of_days_off) {
+			case 0:
+				$message_text .= "\nЗавтра:";
+				break;
+			case 1:
+				$message_text .= "Завтра выходной :)\n\n" . $weekdays[$next_weekday - 1] . ":";
+			default:
+				$message_text .= "Наступили выходные :)\n\n" . $weekdays[$next_weekday - 1] . ":";
+				break;
+		}
+
+		echo $next_date->format('d-m-Y'), " ", $number_of_days_off, "<br/>";
+		echo $next_weeknumber, "<br/>";
+		echo $next_weekday;
+
+		if (jacket_is_need($schedule, $next_weekday, $next_weeknumber)) {
+			$message_text .= " 🧥";
+		}
+		$message_text .= "\n";
+		$message_text .= render_shedule_to_message($schedule, $next_weekday, $next_weeknumber);
 
 	// echo $message_text;
-	$response = json_decode(send_message($message_text), true);
+
+		$response = json_decode(send_message($message_text), true);
+	}
 	// $chat_id = $response['result']['chat']['id'];
 
 	// $chat_id_file = fopen('chat_id.txt', 'w') or die('Unable to open file!');
