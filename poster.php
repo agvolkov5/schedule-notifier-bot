@@ -5,7 +5,7 @@
 		$test_channel_id = file_get_contents('test_channel_id.txt');
 
 		$envelope = array(
-			"chat_id" => $test_channel_id,
+			"chat_id" => $production_channel_id,
 			"text" => $text,
 			"parse_mode" => "Markdown"
 		);
@@ -113,7 +113,7 @@
 		$variety = [
 			'Можно разделить пары с курткой)',
 			'Куртку можно оставить при себе)',
-			'Любовь - это когда куртка рядом.'
+			'Любовь - это когда куртка рядом 💕'
 		];
 	}
 	$message_text .= $variety[array_rand($variety)];
