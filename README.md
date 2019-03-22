@@ -13,7 +13,7 @@ Helpful solution notificating students about classes schedule. This telegram bot
 		["16:40", "18:10"],
 		["18:20", "19:50"]
 	],
-  "days_off": ["25-03-2019", "01-05-2019"],
+  	"days_off": ["25-03-2019", "01-05-2019"],
 	"schedule": [
 		{
 			"weekday": "Monday",
