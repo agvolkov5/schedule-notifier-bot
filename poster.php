@@ -126,7 +126,7 @@
 
 	// For tomorrow
 		$next_date = new DateTime('tomorrow');
-		$next_weekday = $next_date->format('w');
+		$next_weekday = (int)$next_date->format('w');
 
 		$number_of_days_off = 0;
 		while (($next_weekday === 0)
