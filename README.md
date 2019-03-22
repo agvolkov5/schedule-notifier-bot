@@ -1,7 +1,7 @@
 # Schedule Notifier Bot
 ## About
 
-Helpful solution notificating students about classes schedule. This telegram bot wakes up via CRON and sends message about a today's and tomorrow's schedule. You can manage a timetable in `schedule.json` file. Also, you can point a days off in this file. An example of `schedule.json`:
+Helpful solution notificating students about classes schedule. This telegram bot wakes up via CRON and sends message about a today's and tomorrow's schedule. You can manage a timetable in `schedule.json` file. Also, you can point days off in this file. An example of `schedule.json`:
 ```json
 {
 	"timetable": [
