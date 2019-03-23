@@ -1,7 +1,7 @@
 # Schedule Notifier Bot
 ## About
 
-Helpful solution notificating students about classes schedule. This telegram bot wakes up via CRON and sends message about a today's and tomorrow's schedule. You can manage a timetable in `schedule.json` file. Also, you can point days off in this file. An example of `schedule.json`:
+It's a helpful tool notificating students about their classes schedule. This telegram bot wakes up via CRON and sends you a message about today's and tomorrow's schedule. You can manage a timetable in `schedule.json` file. Also, you can specify days off in this file. Here is an example of `schedule.json`:
 ```json
 {
 	"timetable": [
@@ -151,7 +151,7 @@ Helpful solution notificating students about classes schedule. This telegram bot
 	"non-jacket auditoriums": ["102", "105", "106"]
 }
 ```
-Notice, `schedule.json` has a "non-jacket auditoriums" property. This is needed to alert students to leave their outerwear in a wardrobe, because today will be classes in a computer auditoriums.
+Note that `schedule.json` has a "non-jacket classrooms" property. This is neccessary to remind students to leave their outerwear in a cloak-room, because on a specific day there will be classes in a computer classroom.
 
 ## Screenshots
 
