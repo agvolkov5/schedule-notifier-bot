@@ -80,7 +80,6 @@
 
 	$weekday = date('w');
 	$weeknumber = date('W');
-	$weekdays = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 	$result = date('Y-m-d h:i');
 	$schedule = json_decode(file_get_contents('schedule.json'), true);
 
@@ -144,9 +143,9 @@
 				$message_text .= "\nЗавтра:";
 				break;
 			case 1:
-				$message_text .= "\nЗавтра выходной 😉\n\n" . $weekdays[$next_weekday - 1] . ":";
+				$message_text .= "\nЗавтра выходной 😉\n\n" . $schedule['schedule'][$next_weekday - 1]['weekday'] . ":";
 			default:
-				$message_text .= "\nНаступили выходные 😎\n\n" . $weekdays[$next_weekday - 1] . ":";
+				$message_text .= "\nНаступили выходные 😎\n\n" . $schedule['schedule'][$next_weekday - 1]['weekday'] . ":";
 				break;
 		}
 
