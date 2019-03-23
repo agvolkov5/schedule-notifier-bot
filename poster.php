@@ -35,15 +35,15 @@
 			|| (($weeknumber % 2) && $parity === 'odd');
 	}
 
-	function jacket_is_need($schedule, $weekday, $weeknumber) {
-		$non_jacket_auds = $schedule['non-jacket auditoriums'];
+	function cloak_room_is_need($schedule, $weekday, $weeknumber) {
+		$non_coat_auds = $schedule['non-coat classrooms'];
 		$aud = substr($aud, 0, 3);
 
 		$need = false;
 		foreach ($schedule['schedule'][$weekday-1]['classes'] as $number => $class) {
 			if (will_be_class($class['parity'], $weeknumber)) {
-				$aud = substr($class['auditorium'], 0, 3);
-				if (in_array($aud, $non_jacket_auds)) {
+				$aud = substr($class['classroom'], 0, 3);
+				if (in_array($aud, $non_coat_auds)) {
 					$need = true;
 				}
 			}
@@ -71,7 +71,7 @@
 						$message_text .= $sports_emoji[($weeknumber - 12)%count($sports_emoji)] . " ";
 						break;
 				}
-				$message_text .= "_" . $class['auditorium'] . "_";
+				$message_text .= "_" . $class['classroom'] . "_";
 				$message_text .= "\n";
 			}
 		}
@@ -86,11 +86,12 @@
 
 	$date_today = date('d-m-Y');
 
-	if (!in_array($date_today, $schedule['days_off'])) {
+	if (!in_array($date_today, $schedule['days_off'])
+		&& ($weekday % 7 !== 0)) {
 	// For today
 		echo "Working..", "<br/>";
 		$message_text = 'Сегодня:';
-		if (jacket_is_need($schedule, $weekday, $weeknumber)) {
+		if (cloak_room_is_need($schedule, $weekday, $weeknumber)) {
 			$message_text .= " 🧥";
 		}
 		$message_text .= "\n";
@@ -107,7 +108,7 @@
 		$number_of_last_class = count($schedule['schedule'][$weekday-1]['classes']) + $schedule['schedule'][$weekday-1]['number_of_first_class'] - 1;
 		$message_text .= $schedule['timetable'][$number_of_last_class - 1][1];
 		$message_text .= ".\n";
-		if (jacket_is_need($schedule, $weekday, $weeknumber)) {
+		if (cloak_room_is_need($schedule, $weekday, $weeknumber)) {
 			$variety = [
 				'Придётся зайти в гардероб.',
 				'Надо будет сдать куртку.',
@@ -129,7 +130,7 @@
 		$next_weekday = (int)$next_date->format('w');
 
 		$number_of_days_off = 0;
-		while (($next_weekday === 0)
+		while (($next_weekday % 7 === 0)
 			|| (in_array($next_date->format('d-m-Y'), $schedule['days_off']))) {
 			$next_date->modify("+1 day");
 			$number_of_days_off++;
@@ -143,9 +144,9 @@
 				$message_text .= "\nЗавтра:";
 				break;
 			case 1:
-				$message_text .= "Завтра выходной :)\n\n" . $weekdays[$next_weekday - 1] . ":";
+				$message_text .= "\nЗавтра выходной 😉\n\n" . $weekdays[$next_weekday - 1] . ":";
 			default:
-				$message_text .= "Наступили выходные :)\n\n" . $weekdays[$next_weekday - 1] . ":";
+				$message_text .= "\nНаступили выходные 😎\n\n" . $weekdays[$next_weekday - 1] . ":";
 				break;
 		}
 
@@ -153,7 +154,7 @@
 		echo $next_weeknumber, "<br/>";
 		echo $next_weekday;
 
-		if (jacket_is_need($schedule, $next_weekday, $next_weeknumber)) {
+		if (cloak_room_is_need($schedule, $next_weekday, $next_weeknumber)) {
 			$message_text .= " 🧥";
 		}
 		$message_text .= "\n";
