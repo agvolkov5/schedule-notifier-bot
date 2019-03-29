@@ -78,14 +78,18 @@
 		return $message_text;
 	}
 
-	$weekday = date('w');
-	$weeknumber = date('W');
-	$result = date('Y-m-d h:i');
+	$days_shift = 0;
+
 	$schedule = json_decode(file_get_contents('schedule.json'), true);
 
-	$date_today = date('d-m-Y');
+	$date_today = new DateTime('now');
+	for ($i=0; $i < $days_shift; $i++) {
+		$date_today = $date_today->modify("+1 day");
+	}
+	$weekday = (int)$date_today->format('w');
+	$weeknumber = (int)$date_today->format('W');
 
-	if (!in_array($date_today, $schedule['days_off'])
+	if (!in_array($date_today->format('d-m-Y'), $schedule['days_off'])
 		&& ($weekday % 7 !== 0)) {
 	// For today
 		echo "Working..", "<br/>";
@@ -114,18 +118,24 @@
 				'Не всегда хочется сдавать куртку, но сегодня нужно.',
 				'Сегодня не без гардероба.'
 			];
+			$message_text .= $variety[array_rand($variety)];
+			$message_text .= "\n";
 		} else {
-			$variety = [
-				'Можно разделить пары с курткой)',
-				'Куртку можно оставить при себе)',
-				'Любовь - это когда куртка рядом 💕'
-			];
+			// $variety = [
+			// 	'Можно разделить пары с курткой)',
+			// 	'Куртку можно оставить при себе)',
+			// 	'Любовь - это когда куртка рядом 💕'
+			// ];
+			$variety = [''];
 		}
-		$message_text .= $variety[array_rand($variety)];
-		$message_text .= "\n";
+		
 
 	// For tomorrow
 		$next_date = new DateTime('tomorrow');
+		for ($i=0; $i < $days_shift; $i++) {
+			$next_date = $next_date->modify("+1 day");
+		}
+
 		$next_weekday = (int)$next_date->format('w');
 
 		$number_of_days_off = 0;
@@ -133,10 +143,9 @@
 			|| (in_array($next_date->format('d-m-Y'), $schedule['days_off']))) {
 			$next_date->modify("+1 day");
 			$number_of_days_off++;
-			// $message_text .= "Завтра выходной :)\n\nПонедельник:";
-			$next_weekday = (int)$next_date->format('w');
-			$next_weeknumber = (int)$next_date->format('W');
 		}
+		$next_weekday = (int)$next_date->format('w');
+		$next_weeknumber = (int)$next_date->format('W');
 
 		switch ($number_of_days_off) {
 			case 0:
@@ -144,6 +153,7 @@
 				break;
 			case 1:
 				$message_text .= "\nЗавтра выходной 😉\n\n" . $schedule['schedule'][$next_weekday - 1]['weekday'] . ":";
+				break;
 			default:
 				$message_text .= "\nНаступили выходные 😎\n\n" . $schedule['schedule'][$next_weekday - 1]['weekday'] . ":";
 				break;
