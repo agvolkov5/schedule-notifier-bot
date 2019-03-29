@@ -22,19 +22,19 @@ It's a helpful tool notificating students about their classes schedule. This tel
 				{
 					"title": "Subject 1",
 					"kind": "lecture",
-					"auditorium": "11",
+					"classroom": "11",
 					"parity": "always"
 				},
 				{
 					"title": "Subject 2",
 					"kind": "practice",
-					"auditorium": "41",
+					"classroom": "41",
 					"parity": "even"
 				},
 				{
 					"title": "Subject 2",
 					"kind": "practice",
-					"auditorium": "41",
+					"classroom": "41",
 					"parity": "odd"
 				}
 			]
@@ -46,19 +46,19 @@ It's a helpful tool notificating students about their classes schedule. This tel
 				{
 					"title": "Subject 1",
 					"kind": "practice",
-					"auditorium": "12",
+					"classroom": "12",
 					"parity": "even"
 				},
 				{
 					"title": "Subject 2",
 					"kind": "lecture",
-					"auditorium": "89",
+					"classroom": "89",
 					"parity": "always"
 				},
 				{
 					"title": "Sport",
 					"kind": "sport",
-					"auditorium": "",
+					"classroom": "",
 					"parity": "odd"
 				}
 			]
@@ -70,19 +70,19 @@ It's a helpful tool notificating students about their classes schedule. This tel
 				{
 					"title": "Subject 1",
 					"kind": "practice",
-					"auditorium": "65",
+					"classroom": "65",
 					"parity": "always"
 				},
 				{
 					"title": "Subject 2",
 					"kind": "lecture",
-					"auditorium": "22",
+					"classroom": "22",
 					"parity": "always"
 				},
 				{
 					"title": "Subject 3",
 					"kind": "practice",
-					"auditorium": "16",
+					"classroom": "16",
 					"parity": "even"
 				}
 			]
@@ -94,13 +94,13 @@ It's a helpful tool notificating students about their classes schedule. This tel
 				{
 					"title": "Subject 1",
 					"kind": "lecture",
-					"auditorium": "71",
+					"classroom": "71",
 					"parity": "always"
 				},
 				{
 					"title": "Subject 2",
 					"kind": "practice",
-					"auditorium": "10",
+					"classroom": "10",
 					"parity": "always"
 				}
 			]
@@ -112,19 +112,19 @@ It's a helpful tool notificating students about their classes schedule. This tel
 				{
 					"title": "Subject 1",
 					"kind": "lecture",
-					"auditorium": "8",
+					"classroom": "8",
 					"parity": "odd"
 				},
 				{
 					"title": "Subject 2",
 					"kind": "lecture",
-					"auditorium": "1",
+					"classroom": "1",
 					"parity": "always"
 				},
 				{
 					"title": "Sport",
 					"kind": "sport",
-					"auditorium": "",
+					"classroom": "",
 					"parity": "always"
 				}
 			]
@@ -136,22 +136,22 @@ It's a helpful tool notificating students about their classes schedule. This tel
 				{
 					"title": "Subject 1",
 					"kind": "sleep",
-					"auditorium": "10",
+					"classroom": "10",
 					"parity": "always"
 				},
 				{
 					"title": "Subject 2",
 					"kind": "sleep",
-					"auditorium": "10",
+					"classroom": "10",
 					"parity": "always"
 				}
 			]
 		}
 	],
-	"non-jacket auditoriums": ["102", "105", "106"]
+	"non-coat classrooms": ["102", "105", "106"]
 }
 ```
-Note that `schedule.json` has a "non-jacket classrooms" property. This is neccessary to remind students to leave their outerwear in a cloak-room, because on a specific day there will be classes in a computer classroom.
+Note that `schedule.json` has a "non-coat classrooms" property. This is neccessary to remind students to leave their outerwear in a cloak-room, because on a specific day there will be classes in a computer classroom.
 
 ## Screenshots
 
