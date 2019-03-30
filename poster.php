@@ -139,7 +139,7 @@
 		$next_weekday = (int)$next_date->format('w');
 
 		$number_of_days_off = 0;
-		while (($next_weekday % 7 === 0)
+		while (((int)$next_date->format('w') % 7 === 0)
 			|| (in_array($next_date->format('d-m-Y'), $schedule['days_off']))) {
 			$next_date->modify("+1 day");
 			$number_of_days_off++;
